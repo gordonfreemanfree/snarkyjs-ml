@@ -18,21 +18,20 @@ import {
 } from 'snarkyjs';
 
 import { SnarkyTensor } from './snarky_tensor.js';
-import { Int65 } from './Int65_v4.js';
 
 await isReady;
 // create a layer
 class SnarkyLayer extends SnarkyTensor {
-  @matrixProp(Int65, 100, 10) weights: Array<Int65>[]; // weights
+  @matrixProp(Field, 100, 10) weights: Array<Field>[]; // weights
   activation: Function; // activation function
-  alpha: Int65; // alpha value for leaky relu / it is scaled by 1000
+  alpha: Field; // alpha value for leaky relu / it is scaled by 1000
   decimal: number; // multiplier for decimals
-  zero: Int65; // zero
+  zero: Field; // zero
 
   constructor(
-    weights: Array<Int65>[],
+    weights: Array<Field>[],
     activation = 'relu', // default activation function
-    alpha = Int65.from(10) // alread scaled by 1000
+    alpha = Field(10) // alread scaled by 1000
   ) {
     super();
 
@@ -47,7 +46,7 @@ class SnarkyLayer extends SnarkyTensor {
     this.weights = weights;
   }
 
-  call(input: Array<Int65>[]): Array<Int65>[] {
+  call(input: Array<Field>[]): Array<Field>[] {
     console.log('in the call function');
     // Dense layer implementation
     // Equivalent: output = activation( dot( input, weight ) )
@@ -66,15 +65,16 @@ class SnarkyLayer extends SnarkyTensor {
     else if (activation == 'softmax') {
       return this.softmax_t1;
     } // Softmax Activation Function
-    else if (activation == 'tayler') {
-      return this.tayler;
-    } else {
+    // else if (activation == 'tayler') {
+    //   return this.tayler;
+    // }
+    else {
       throw Error('Activation Function Not Valid');
     } // Invalid Activation Function
   }
 
   // Activation
-  activation_t2(x: Array<Int65>[]): Array<Int65>[] {
+  activation_t2(x: Array<Field>[]): Array<Field>[] {
     console.log('in the activation_t2 function');
     // Applying activation functions for a rank 2 tensor
     let result = Array();
@@ -83,45 +83,31 @@ class SnarkyLayer extends SnarkyTensor {
   }
 
   // Activation Functions (implemented for rank 1 tensors)
-  relu_t1(x: Array<Int65>): Array<Int65> {
+  relu_t1(x: Array<Field>): Array<Field> {
     // RelU implementation for an Array
     // Equivalent: result = max( x, 0 )
     let result = Array();
-    x.forEach(
-      (value, i) =>
-        (result[i] = Circuit.if(
-          value.sgn.equals(Sign.one).toBoolean(),
-          value,
-          Int65.zero
-        ))
-    );
+    x.forEach((value, i) => (result[i] = value));
     return result;
   }
 
-  relu_leaky_t1(x: Array<Int65>): Array<Field> {
+  relu_leaky_t1(x: Array<Field>): Array<Field> {
     // Leaky RelU implementation for an Array
     let result = Array();
-    x.forEach(
-      (value, i) =>
-        (result[i] = Circuit.if(
-          value.sgn.equals(Sign.one).toBoolean(),
-          value,
-          value.mul(this.alpha)
-        ))
-    );
+    x.forEach((value, i) => (result[i] = value));
     return result;
   }
 
-  softmax_t1(x: Array<Int65>): Array<Int65> {
+  softmax_t1(x: Array<Field>): Array<Field> {
     // Softmax Implementation for an Array
     console.log('in the softmax_t1 function');
-    let sum = Int65.zero;
-    let result = Array<Int65>();
+    let sum = Field.zero;
+    let result = Array<Field>();
     // Equivalent: result = x / ( x1 + .. + xn )
     console.log('x before is', x.toString());
     // preventing overflow
-    let reduced_x = Array<Int65>();
-    x.forEach((value, i) => (reduced_x[i] = value.div(Int65.from(1000000000))));
+    let reduced_x = Array<Field>();
+    x.forEach((value, i) => (reduced_x[i] = value.div(Field(1000000000))));
     console.log('x after overflow prevention is', reduced_x.toString());
     reduced_x.forEach((value) => console.log(this.exp(value).toString()));
     console.log('x after exp is', reduced_x.toString());
@@ -130,84 +116,83 @@ class SnarkyLayer extends SnarkyTensor {
     reduced_x.forEach((value) => (sum = sum.add(this.exp(value))));
     console.log('sum is', sum.toString());
     // reduced_x.forEach(
-    //   (value, i) => (result[i] = this.exp(value).div(sum).mul(Int65.from(100))) // percentage
+    //   (value, i) => (result[i] = this.exp(value).div(sum).mul(Field.from(100))) // percentage
     // );
     reduced_x.forEach(
-      (value, i) =>
-        (result[i] = this.exp(value).divRest(sum).mul(Int65.from(100))) // percentage
+      (value, i) => (result[i] = this.exp(value).div(sum).mul(Field(100))) // percentage
     );
     console.log('result is', result.toString());
     return result;
   }
 
-  tayler(x: Array<Int65>): Array<Int65> {
-    console.log('taylor_softmax_manual_typescript');
-    var fn: Array<Int65> = [
-      new Int65(new UInt64(1), Sign.one),
-      new Int65(new UInt64(1), Sign.one),
-      new Int65(new UInt64(1), Sign.one),
-      new Int65(new UInt64(1), Sign.one),
-      new Int65(new UInt64(1), Sign.one),
-      new Int65(new UInt64(1), Sign.one),
-      new Int65(new UInt64(1), Sign.one),
-      new Int65(new UInt64(1), Sign.one),
-      new Int65(new UInt64(1), Sign.one),
-      new Int65(new UInt64(1), Sign.one),
-    ];
+  // tayler(x: Array<Field>): Array<Field> {
+  //   console.log('taylor_softmax_manual_typescript');
+  //   var fn: Array<Field> = [
+  //     new Field(1),
+  //     new Field(1),
+  //     new Field(1),
+  //     new Field(1),
+  //     new Field(1),
+  //     new Field(1),
+  //     new Field(1),
+  //     new Field(1),
+  //     new Field(1),
+  //     new Field(1),
+  //   ];
 
-    // var sum_fn = new Int65(Field(0), Field(1))
-    var sum_fn = Int65.zero;
+  //   // var sum_fn = new Field(Field(0), Field(1))
+  //   var sum_fn = Field.zero;
 
-    console.log('sum_fn initial value: ' + sum_fn.toString());
-    var out: Array<Int65> = [
-      Int65.zero,
-      Int65.zero,
-      Int65.zero,
-      Int65.zero,
-      Int65.zero,
-      Int65.zero,
-      Int65.zero,
-      Int65.zero,
-      Int65.zero,
-      Int65.zero,
-    ];
+  //   console.log('sum_fn initial value: ' + sum_fn.toString());
+  //   var out: Array<Field> = [
+  //     Field.zero,
+  //     Field.zero,
+  //     Field.zero,
+  //     Field.zero,
+  //     Field.zero,
+  //     Field.zero,
+  //     Field.zero,
+  //     Field.zero,
+  //     Field.zero,
+  //     Field.zero,
+  //   ];
 
-    for (let i = 0; i < x.length; i++) {
-      // fn[i] = fn[i].add(Math.pow(x[i], 1)) //?
-      fn[i] = fn[i].add(x[i]);
+  //   for (let i = 0; i < x.length; i++) {
+  //     // fn[i] = fn[i].add(Math.pow(x[i], 1)) //?
+  //     fn[i] = fn[i].add(x[i]);
 
-      console.log('for loop 1', fn[i].toString(), 'is is', i);
-    }
-    for (let i = 0; i < x.length; i++) {
-      fn[i] = fn[i].add(x[i].mul(x[i])).div(new Int65(new UInt64(2), Sign.one)); //?
-      console.log('for loop 2', fn[i].toString(), 'is is', i);
-    }
-    // for (let i = 0; i < x.length; i++) {
-    //   fn[i] += Math.pow(x[i], 3) / 3 //?
-    // }
-    // for (let i = 0; i < x.length; i++) {
-    //   fn[i] += Math.pow(x[i], 4) / 4 //?
-    // }
+  //     console.log('for loop 1', fn[i].toString(), 'is is', i);
+  //   }
+  //   for (let i = 0; i < x.length; i++) {
+  //     fn[i] = fn[i].add(x[i].mul(x[i])).div(new Field(2)); //?
+  //     console.log('for loop 2', fn[i].toString(), 'is is', i);
+  //   }
+  //   // for (let i = 0; i < x.length; i++) {
+  //   //   fn[i] += Math.pow(x[i], 3) / 3 //?
+  //   // }
+  //   // for (let i = 0; i < x.length; i++) {
+  //   //   fn[i] += Math.pow(x[i], 4) / 4 //?
+  //   // }
 
-    for (let i = 0; i < fn.length; i++) {
-      sum_fn = sum_fn.add(fn[i]); //?
-      // sum_fn.forEach((value) => sum = sum.add(value))
-      console.log('for loop 3 sum_fn is', sum_fn.toString(), 'is is', i);
-    }
+  //   for (let i = 0; i < fn.length; i++) {
+  //     sum_fn = sum_fn.add(fn[i]); //?
+  //     // sum_fn.forEach((value) => sum = sum.add(value))
+  //     console.log('for loop 3 sum_fn is', sum_fn.toString(), 'is is', i);
+  //   }
 
-    let test = Int65.zero;
-    for (let i = 0; i < fn.length; i++) {
-      test = fn[i].divRest(sum_fn).mul(Int65.from(100)); // devided by 100 to get percentage
-      console.log('test is', test.toString(), 'is is', i);
-      out[i] = test;
-      console.log('fn[i] is', fn[i].toString(), 'sum_fn is', sum_fn.toString());
-      console.log('for loop 4', out[i].toString(), 'is is', i);
-    }
-    console.log('out', out.toString());
-    console.log(out[0].toString());
-    console.log(out[1].toString());
-    return out;
-  }
+  //   let test = Field.zero;
+  //   for (let i = 0; i < fn.length; i++) {
+  //     test = fn[i].divRest(sum_fn).mul(Field(100)); // devided by 100 to get percentage
+  //     console.log('test is', test.toString(), 'is is', i);
+  //     out[i] = test;
+  //     console.log('fn[i] is', fn[i].toString(), 'sum_fn is', sum_fn.toString());
+  //     console.log('for loop 4', out[i].toString(), 'is is', i);
+  //   }
+  //   console.log('out', out.toString());
+  //   console.log(out[0].toString());
+  //   console.log(out[1].toString());
+  //   return out;
+  // }
 }
 
 class SnarkyNet extends SnarkyTensor {
@@ -220,13 +205,13 @@ class SnarkyNet extends SnarkyTensor {
     this.layers = layers; // SnarkyJS Layers
   }
 
-  predict(inputs: Array<Int65>[]): Array<Field> {
+  predict(inputs: Array<Field>[]): Array<Field> {
     console.log('in predict start');
     // Prediction method to run the model
     // Step 1. Convert initial inputs to a float
-    // let x = this.num2int65_t2(inputs);
+    // let x = this.num2Field_t2(inputs);
     let x = inputs;
-    console.log('in predict after num2int65_t2');
+    console.log('in predict after num2Field_t2');
     // Step 2. Call the SnarkyLayers
     this.layers.forEach((layer) => (x = layer.call(x)));
     console.log('in predict after layers.forEach');
@@ -238,20 +223,20 @@ class SnarkyNet extends SnarkyTensor {
     return this.parse_classes(x[0]);
   }
 
-  parse_classes(x: Array<Int65>): Array<Field> {
+  parse_classes(x: Array<Field>): Array<Field> {
     // Return an array of Bool if it exceeds the threshold
     console.log('in parse_classes');
     console.log('x is', x.toString());
     // let output = Array<Bool>();
     console.log('in parse_classes after output');
     // determine if values exceed the threshold
-    // let max = Int65.from(90);
+    // let max = Field.from(90);
     let results: Array<Field> = [];
-    // let max = new Int65(new UInt64(0), Sign.one);
+    // let max = new Field(new UInt64(0), Sign.one);
     console.log(' - Results - ');
     for (let i = 0; i < x.length; i++) {
       console.log('Classification of', i, ': ', x[i].toString(), '%');
-      results.push(x[i].toField());
+      results.push(x[i]);
       // let checkSize = comparison.gt(new Field(x[i].toString()));
       // Circuit.if(checkSize, (max = x[i]), (max = max));
     }

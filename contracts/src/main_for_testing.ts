@@ -1,4 +1,4 @@
-import { isReady } from 'snarkyjs';
+import { isReady, Field } from 'snarkyjs';
 import {
   image_a_7,
   image_b_2,
@@ -37,24 +37,23 @@ import {
 import { SnarkyLayer, SnarkyNet } from './snarkynet.js';
 import { weights_l1 } from './assets/weights_l1_scaled.js';
 import { weights_l2 } from './assets/weights_l2_scaled.js';
-import { num2int65_t2 } from './utils/scaledWeights2Int65.js';
-import { Int65 } from './Int65_v4.js';
+import { num2Field_t2 } from './utils/scaledWeights2Int65.js';
 import { scaleImage } from './utils/preprocessingWeightsFloat2Int.js';
 await isReady;
 
-function preprocessWeights(weightsScaled: number[][]): Array<Int65>[] {
-  const weights_l1_preprocessed = num2int65_t2(weightsScaled);
-  // const weights_l2_preprocessed = await num2int65_t2(weights_l2);
+function preprocessWeights(weightsScaled: number[][]): Array<Field>[] {
+  const weights_l1_preprocessed = num2Field_t2(weightsScaled);
+  // const weights_l2_preprocessed = await num2Field_t2(weights_l2);
   return weights_l1_preprocessed;
 }
 
 export async function createLayers() {
   await isReady;
-  let weights_l1_Int65 = preprocessWeights(weights_l1);
-  let weights_l2_Int65 = preprocessWeights(weights_l2);
+  let weights_l1_Field = preprocessWeights(weights_l1);
+  let weights_l2_Field = preprocessWeights(weights_l2);
   let layers = [
-    new SnarkyLayer(weights_l1_Int65, 'relu'),
-    new SnarkyLayer(weights_l2_Int65, 'softmax'),
+    new SnarkyLayer(weights_l1_Field, 'relu'),
+    new SnarkyLayer(weights_l2_Field, 'softmax'),
   ];
   // console.log(layers);
   console.log('length of layers: ' + layers.length);
@@ -153,7 +152,7 @@ export async function generateModel() {
 //   // deploy the contract locally
 //   console.log('Deploying Smart SnarkyNet');
 //   // array<T>(elementType, length): Provable<T[]>
-//   // let weights_l1_array = array(Int65, 784 * 16);
+//   // let weights_l1_array = array(Field, 784 * 16);
 // }
 
 console.log('Start');

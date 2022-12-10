@@ -26,8 +26,7 @@ import {
 // Import SnarkyNet and SnarkyLayers
 import { SnarkyNet, SnarkyLayer } from './snarkynet.js';
 
-// Import Int65
-import { Int65 } from './Int65_v4.js';
+// Import Field
 
 let initialBalance = 10_000_000;
 
@@ -37,7 +36,7 @@ export class SmartSnarkyNet extends SmartContract {
   @state(Field) modelHash: State<Field>;
   model: SnarkyNet; // model object
   reward_balance: UInt64; // balance for the reward
-  // @arrayProp(input, 784) input: Array<Int65>[];
+  // @arrayProp(input, 784) input: Array<Field>[];
 
   deploy(args: DeployArgs) {
     super.deploy(args);
@@ -63,7 +62,7 @@ export class SmartSnarkyNet extends SmartContract {
   // }
   // array<T>(elementType, length): Provable<T[]>
 
-  @method async predict(input: Array<Int65>[]) {
+  @method async predict(input: Array<Field>[]) {
     // run the model and obtain the predictions
     let prediction = this.model.predict(input);
     // let comparison = Field(0);
