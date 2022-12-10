@@ -1,3 +1,3 @@
-import { Add } from './Add.js';
+import { SmartSnarkyNet } from './smart_snarkynet.js';
 
-export { Add };
+export { SmartSnarkyNet };
