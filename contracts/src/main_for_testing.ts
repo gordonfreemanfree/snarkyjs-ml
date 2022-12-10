@@ -100,22 +100,22 @@ export async function generateModel() {
   startPrediction = new Date().getTime() / 1000;
   model.predict([scaleImage(image_2_label_1)]);
   console.log('Predict took:', new Date().getTime() / 1000 - startPrediction);
-  console.log('Expecting to be 2');
+  console.log('Expecting to be 1');
 
-  // startPrediction = new Date().getTime() / 1000;
-  // model.predict([scaleImage(image_c_1)]);
-  // console.log('Predict took:', new Date().getTime() / 1000 - startPrediction);
-  // console.log('Expecting to be 1');
+  startPrediction = new Date().getTime() / 1000;
+  model.predict([scaleImage(image_3_label_0)]);
+  console.log('Predict took:', new Date().getTime() / 1000 - startPrediction);
+  console.log('Expecting to be 0');
 
-  // startPrediction = new Date().getTime() / 1000;
-  // model.predict([scaleImage(image_d_0)]);
-  // console.log('Predict took:', new Date().getTime() / 1000 - startPrediction);
-  // console.log('Expecting to be 0');
+  startPrediction = new Date().getTime() / 1000;
+  model.predict([scaleImage(image_4_label_4)]);
+  console.log('Predict took:', new Date().getTime() / 1000 - startPrediction);
+  console.log('Expecting to be 4');
 
-  // startPrediction = new Date().getTime() / 1000;
-  // model.predict([scaleImage(image_e_4)]);
-  // console.log('Predict took:', new Date().getTime() / 1000 - startPrediction);
-  // console.log('Expecting to be 4');
+  startPrediction = new Date().getTime() / 1000;
+  model.predict([scaleImage(image_5_label_1)]);
+  console.log('Predict took:', new Date().getTime() / 1000 - startPrediction);
+  console.log('Expecting to be 1');
 
   // startPrediction = new Date().getTime() / 1000;
   // model.predict([scaleImage(image_f_1)]);

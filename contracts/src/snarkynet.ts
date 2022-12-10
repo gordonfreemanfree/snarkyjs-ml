@@ -121,7 +121,7 @@ class SnarkyLayer extends SnarkyTensor {
     console.log('x before is', x.toString());
     // preventing overflow
     let reduced_x = Array<Int65>();
-    x.forEach((value, i) => (reduced_x[i] = value.div(Int65.from(1000))));
+    x.forEach((value, i) => (reduced_x[i] = value.div(Int65.from(1000000000))));
     console.log('x after overflow prevention is', reduced_x.toString());
     reduced_x.forEach((value) => console.log(this.exp(value).toString()));
     console.log('x after exp is', reduced_x.toString());

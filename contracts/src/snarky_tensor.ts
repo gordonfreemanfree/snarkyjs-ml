@@ -23,7 +23,7 @@ class SnarkyTensor extends CircuitValue {
   // scale_factor: number;
   scale_factor_int65: Int65;
 
-  constructor(power: Int65 = Int65.from(10000)) {
+  constructor(power: Int65 = Int65.from(1000)) {
     // Multiplier for representing decimals
     // this.scale_factor = Math.pow(10, power);
     // this.scale_factor = power;
