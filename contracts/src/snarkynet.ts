@@ -23,7 +23,7 @@ import { Int65 } from './Int65_v4.js';
 await isReady;
 // create a layer
 class SnarkyLayer extends SnarkyTensor {
-  @matrixProp(Int65, 784, 128) weights: Array<Int65>[]; // weights
+  @matrixProp(Int65, 10, 10) weights: Array<Int65>[]; // weights
   activation: Function; // activation function
   alpha: Int65; // alpha value for leaky relu / it is scaled by 1000
   decimal: number; // multiplier for decimals

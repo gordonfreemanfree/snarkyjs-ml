@@ -6,7 +6,7 @@
 import { Field, isReady, UInt64 } from 'snarkyjs';
 import { Int65 } from '../Int65_v4.js';
 import fs from 'fs';
-import { weights_l1, weights_l2 } from '../assets/weights.js';
+import { weights_l1, weights_l2 } from '../assets/weights_positiver_10x10.js';
 
 await isReady;
 function floatToScaledInt65(num: number, power: number = 4): number {
