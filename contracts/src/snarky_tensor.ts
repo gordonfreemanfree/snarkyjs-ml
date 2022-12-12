@@ -14,7 +14,6 @@ import {
   UInt64,
   CircuitValue,
 } from 'snarkyjs';
-import { Int65 } from './Int65_v4.js';
 
 await isReady;
 

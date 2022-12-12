@@ -1,16 +1,4 @@
 import { isReady, Field } from 'snarkyjs';
-import {
-  image_a_7,
-  image_b_2,
-  image_c_1,
-  image_d_0,
-  image_e_4,
-  image_f_1,
-  image_g_4,
-  image_h_9,
-  image_i_5,
-  image_j_9,
-} from './assets/example_images.js';
 
 import {
   image_0_label_7,

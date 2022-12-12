@@ -22,6 +22,7 @@ import {
   Permissions,
   arrayProp,
 } from 'snarkyjs';
+import { ImageVector } from './ImageClass.js';
 
 // Import SnarkyNet and SnarkyLayers
 import { SnarkyNet, SnarkyLayer } from './snarkynet.js';
