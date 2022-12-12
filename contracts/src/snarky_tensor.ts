@@ -14,6 +14,7 @@ import {
   UInt64,
   CircuitValue,
 } from 'snarkyjs';
+import { Int65 } from './Int65_v4.js';
 
 await isReady;
 
@@ -22,7 +23,7 @@ class SnarkyTensor extends CircuitValue {
   // scale_factor: number;
   scale_factor_Field: Field;
 
-  constructor(power: Field = Field(1000)) {
+  constructor(power: Field = Field(10000000)) {
     // Multiplier for representing decimals
     // this.scale_factor = Math.pow(10, power);
     // this.scale_factor = power;
@@ -63,7 +64,8 @@ class SnarkyTensor extends CircuitValue {
     );
     v1.forEach(
       (v1_value, i) =>
-        (y = y.add(v1_value.mul(v2[i]).div(this.scale_factor_Field)))
+        // (y = y.add(v1_value.mul(v2[i]).div(this.scale_factor_Field)))
+        (y = y.add(v1_value.mul(v2[i])))
     );
     return y;
   }
@@ -84,13 +86,14 @@ class SnarkyTensor extends CircuitValue {
     return y;
   }
 
-  exp_part(x: Field, y: number, z: number): Field {
+  exp_part(x: UInt64, y: number, z: number): UInt64 {
     // Portion of the Expotential Calculation
     // (x^y)/z
-    let result = x;
-    result = result.div(Field(z));
+    let result = UInt64.from(x);
+    result = result.div(UInt64.from(z));
     for (let i = 1; i < y; i++) {
-      result = result.mul(x).div(this.scale_factor_Field);
+      result = result.mul(x).div(UInt64.from(this.scale_factor_Field));
+      result = result.mul(UInt64.from(x));
     }
     return result;
   }
@@ -98,12 +101,12 @@ class SnarkyTensor extends CircuitValue {
   // Description:   Calculate the expotential
   // Input:         Rank 0 Tensor of type Field for the power
   // Output:        Rank 0 Tensor of type Field result of calculation
-  exp(x: Field): Field {
+  exp(x: UInt64): UInt64 {
     // Expotential Implementation
     // 1 + x + (x^2)/2 + (x^3)/6 + (x^4)/24 + (x^5)/120 + (x^6)/720 + (x^7)/5040
     // return this.num2Field(1)
-    return Field(1)
-      .add(x)
+    return UInt64.one
+      .add(UInt64.from(x))
       .add(this.exp_part(x, 2, 2))
       .add(this.exp_part(x, 3, 6))
       .add(this.exp_part(x, 4, 24))

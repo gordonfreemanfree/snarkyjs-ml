@@ -2,7 +2,7 @@ import { isReady, Field } from 'snarkyjs';
 
 await isReady;
 // multiplier for decimal conversion for number to Field conversions
-let scale_factor_Field: Field = Field(10000);
+let scale_factor_Field: Field = Field(1000);
 
 // Description:   Convert a Rank 2 Tensor of numbers to Rank 2 Tensor of Fields
 // Input:         x - Rank 2 Tensor of type number

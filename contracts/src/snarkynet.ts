@@ -15,6 +15,7 @@ import {
   UInt64,
   CircuitValue,
   matrixProp,
+  Int64,
 } from 'snarkyjs';
 
 import { SnarkyTensor } from './snarky_tensor.js';
@@ -98,16 +99,21 @@ class SnarkyLayer extends SnarkyTensor {
     return result;
   }
 
-  softmax_t1(x: Array<Field>): Array<Field> {
+  softmax_t1(x: Array<Field>): Array<UInt64> {
     // Softmax Implementation for an Array
     console.log('in the softmax_t1 function');
-    let sum = Field.zero;
-    let result = Array<Field>();
+    console.log('x before exp part is', x.toString());
+    let sum = UInt64.zero;
+    let result = Array<UInt64>();
     // Equivalent: result = x / ( x1 + .. + xn )
-    console.log('x before is', x.toString());
+    console.log('x before exp part is', x.toString());
     // preventing overflow
-    let reduced_x = Array<Field>();
-    x.forEach((value, i) => (reduced_x[i] = value.div(Field(1000000000))));
+    let reduced_x = Array<UInt64>();
+    // x.forEach((value, i) => (reduced_x[i] = value.div(Field(1))));
+    x.forEach(
+      (value, i) =>
+        (reduced_x[i] = UInt64.from(value).div(UInt64.from(1000000)))
+    );
     console.log('x after overflow prevention is', reduced_x.toString());
     reduced_x.forEach((value) => console.log(this.exp(value).toString()));
     console.log('x after exp is', reduced_x.toString());
@@ -118,10 +124,15 @@ class SnarkyLayer extends SnarkyTensor {
     // reduced_x.forEach(
     //   (value, i) => (result[i] = this.exp(value).div(sum).mul(Field.from(100))) // percentage
     // );
-    reduced_x.forEach(
-      (value, i) => (result[i] = this.exp(value).div(sum).mul(Field(100))) // percentage
-    );
+    // reduced_x.forEach(
+    //   (value, i) => (result[i] = this.exp(value).divMod(sum)) // percentage
+    // );
+    reduced_x.forEach((value, i) => {
+      let quotientAndRemainder = this.exp(value).divMod(sum);
+      result[i] = quotientAndRemainder.rest;
+    });
     console.log('result is', result.toString());
+
     return result;
   }
 

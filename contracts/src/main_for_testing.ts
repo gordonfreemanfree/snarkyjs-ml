@@ -35,8 +35,8 @@ import {
 } from './assets/test_images_10x10.js';
 
 import { SnarkyLayer, SnarkyNet } from './snarkynet.js';
-import { weights_l1 } from './assets/weights_l1_scaled.js';
-import { weights_l2 } from './assets/weights_l2_scaled.js';
+import { weights_l1 } from './assets/weights_l1_scaled_3.js';
+import { weights_l2 } from './assets/weights_l2_scaled_3.js';
 import { num2Field_t2 } from './utils/scaledWeights2Int65.js';
 import { scaleImage } from './utils/preprocessingWeightsFloat2Int.js';
 await isReady;
