@@ -39,6 +39,7 @@ class SnarkyTensor extends CircuitValue {
     // Perform a dot product on the two rank 2 tensors
     let y = Array();
     let m2_t = this.transpose(m2);
+    // let m2_t = m2;
     for (let i = 0; i < m1.length; i++) {
       console.log('in the for loop', i);
       let m_array = Array();
