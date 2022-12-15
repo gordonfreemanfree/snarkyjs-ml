@@ -75,6 +75,9 @@ export class SmartSnarkyNet extends SmartContract {
     let max01 = Field(0);
     let classification01 = Field(0);
 
+    // find the max value and its index
+    // TODO: make this a loop
+    // there is a bug in the snarkyjs library that prevents this from working in a loop
     [max01, classification01] = Circuit.if(
       prediction[0].gt(prediction[1]),
       (() => {
