@@ -75,6 +75,23 @@ import { image_3_label_0_5x5 } from './assets/image_3_label_0_5x5.js';
     preprocessWeights(weights_l2_5x5),
     'softmax'
   );
+  // ----------------------------------------------------
+
+  const txnInit = await Mina.transaction(deployerAccount, () => {
+    zkAppInstance.initState(snarkyLayer1s, snarkyLayer2s);
+    zkAppInstance.sign(zkAppPrivateKey);
+  });
+  await txnInit.send();
+  console.log(
+    'layer1 state after init:',
+    zkAppInstance.layer1Hash.get().toString()
+  );
+  console.log(
+    'layer1 state after init:',
+    zkAppInstance.layer2Hash.get().toString()
+  );
+  // ----------------------------------------------------
+
   const txn1 = await Mina.transaction(deployerAccount, () => {
     zkAppInstance.predict(
       new InputImage(preprocessImage(image_0_label_7_5x5)),

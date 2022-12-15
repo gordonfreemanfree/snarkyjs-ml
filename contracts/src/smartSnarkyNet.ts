@@ -38,15 +38,15 @@ export class SmartSnarkyNet extends SmartContract {
   }
 
   // TODO: make this a real init method
-  // @method initState(layer1: SnarkyLayer1, layer2: SnarkyLayer2) {
-  //   super.init();
-  //   // Initialize contract state
-  //   this.classification.set(Field(0));
-  //   this.layer1Hash.set(Poseidon.hash(layer1.toFields()));
-  //   this.layer2Hash.set(Poseidon.hash(layer2.toFields()));
-  //   // TODO:
-  //   // this.requireSignature();
-  // }
+  @method initState(layer1: SnarkyLayer1, layer2: SnarkyLayer2) {
+    super.init();
+    // Initialize contract state
+    this.classification.set(Field(0));
+    this.layer1Hash.set(Poseidon.hash(layer1.toFields()));
+    this.layer2Hash.set(Poseidon.hash(layer2.toFields()));
+    // TODO:
+    this.requireSignature();
+  }
 
   @method predict(
     input: InputImage,
@@ -55,6 +55,16 @@ export class SmartSnarkyNet extends SmartContract {
   ) {
     // create the model
     let model = new SnarkyNet([layer1, layer2]);
+
+    // check that the layers are correct
+    let layerState = this.classification.get();
+    this.layer1Hash.assertEquals(layerState);
+    this.layer1Hash.assertEquals(Poseidon.hash(layer1.toFields()));
+
+    // check that the layers are correct
+    let layerState2 = this.classification.get();
+    this.layer2Hash.assertEquals(layerState2);
+    this.layer2Hash.assertEquals(Poseidon.hash(layer2.toFields()));
 
     // run the model and obtain the predictions
     let currentModel = model;
@@ -200,7 +210,7 @@ export class SmartSnarkyNet extends SmartContract {
         return [prediction[9], Field(9)];
       })()
     );
-    // ---------------------------- set the state ----------------------------
+    // ---------------------------- set the classification ----------------------------
     let classification = this.classification.get();
     this.classification.assertEquals(classification);
     this.classification.set(classification89);
