@@ -7,7 +7,7 @@ import {
   image_1_label_2,
   image_2_label_1,
   image_3_label_0,
-} from '../assets/test_images_10x10.js';
+} from '../assets/test_images_5x5.js';
 
 await isReady;
 function floatToScaledField(num: number, power: number = 3): number {
@@ -49,9 +49,9 @@ function writeScaledArray(array: number[], name: string) {
 }
 
 console.log('writing weights to file');
-// writeScaledArray(image_0_label_7, 'image_0_label_7');
-writeScaledArray(image_1_label_2, 'image_1_label_2');
-writeScaledArray(image_2_label_1, 'image_2_label_1');
-writeScaledArray(image_3_label_0, 'image_3_label_0');
+writeScaledArray(image_0_label_7, 'image_0_label_7_5x5');
+writeScaledArray(image_1_label_2, 'image_1_label_2_5x5');
+writeScaledArray(image_2_label_1, 'image_2_label_1_5x5');
+writeScaledArray(image_3_label_0, 'image_3_label_0_5x5');
 
 console.log('done');

@@ -26,12 +26,13 @@ import { image_1_label_2 } from './assets/image_1_label_2.js';
 import { image_2_label_1 } from './assets/image_2_label_1.js';
 import { image_3_label_0 } from './assets/image_3_label_0.js';
 
-import { SnarkyLayer1, SnarkyLayer2, SnarkyNet } from './snarkynet.js';
+import { SnarkyNet } from './snarkyNet.js';
+import { SnarkyLayer1, SnarkyLayer2 } from './snarkyLayer.js';
 import { weights_l1 } from './assets/weights_l1_scaled_3.js';
 import { weights_l2 } from './assets/weights_l2_scaled_3.js';
 import { num2Field_t1, num2Field_t2 } from './utils/scaledWeights2Int65.js';
 import { scaleImage } from './utils/preprocessingWeightsFloat2Int.js';
-import { ImageVector } from './ImageClass.js';
+import { InputImage } from './inputImage.js';
 await isReady;
 
 function preprocessWeights(weightsScaled: number[][]): Array<Field>[] {
@@ -106,7 +107,7 @@ export async function generateModel() {
 
   // predict the first image
   let startPrediction = new Date().getTime() / 1000;
-  model.predict(new ImageVector(preprocessImage(image_0_label_7)));
+  model.predict(new InputImage(preprocessImage(image_0_label_7)));
   console.log('Predict took:', new Date().getTime() / 1000 - startPrediction);
   console.log('Expecting to be 7');
 

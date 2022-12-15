@@ -14,7 +14,7 @@
  */
 import { Mina, PrivateKey, shutdown } from 'snarkyjs';
 import fs from 'fs/promises';
-import { SmartSnarkyNet } from '../smart_snarkynet.js';
+import { SmartSnarkyNet } from '../smartSnarkyNet.js';
 
 // // check command line arg
 // let network = process.argv[2];

@@ -1,9 +1,9 @@
-import { Field, CircuitValue, arrayProp, matrixProp } from 'snarkyjs';
+import { Field, CircuitValue, arrayProp } from 'snarkyjs';
 
 // This is the class that will be used to store the image vector
-// the size of the matrix is 100x1
-export class ImageVector extends CircuitValue {
-  @arrayProp(Field, 100) value: Array<Field>;
+// the size of the matrix is 1x100
+export class InputImage extends CircuitValue {
+  @arrayProp(Field, 25) value: Array<Field>;
 
   constructor(vector: Field[]) {
     super();
@@ -16,7 +16,5 @@ export class ImageVector extends CircuitValue {
   }
   num2Int64(x: Field): Field {
     return Field(x);
-    // commenting this scale factor out for now
-    // return Int64.from(Math.floor(x * this.scale_factor));
   }
 }

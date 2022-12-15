@@ -7,20 +7,21 @@ import {
   PublicKey,
   shutdown,
 } from 'snarkyjs';
-// import { image_0_label_7 } from './assets/test_images_10x10';
-// import { image_0_label_7 } from './assets/image_0_label_7';
-import { image_1_label_2 } from './assets/image_1_label_2';
-import { image_2_label_1 } from './assets/image_2_label_1';
-import { image_3_label_0 } from './assets/image_3_label_0';
-import { image_0_label_7 } from './assets/test_image';
 
-import { weights_l1 } from './assets/weights_l1_scaled_3';
-import { weights_l2 } from './assets/weights_l2_scaled_3';
+import { image_1_label_2 } from '../assets/image_1_label_2';
+import { image_2_label_1 } from '../assets/image_2_label_1';
+import { image_3_label_0 } from '../assets/image_3_label_0';
+import { image_0_label_7 } from '../assets/test_images_5x5';
 
-import { ImageVector, SmartSnarkyNet } from './smart_snarkynet';
-import { SnarkyLayer1, SnarkyLayer2, SnarkyNet } from './snarkynet';
-import { scaleImage } from './utils/preprocessingWeightsFloat2Int';
-import { num2Field_t1, num2Field_t2 } from './utils/scaledWeights2Int65';
+import { weights_l1_5x5 } from '../assets/weights_l1_5x5';
+import { weights_l2_5x5 } from '../assets/weights_l2_5x5';
+
+import { SmartSnarkyNet } from '../smartSnarkyNet';
+import { SnarkyNet } from '../snarkyNet';
+import { SnarkyLayer1, SnarkyLayer2 } from '../snarkyLayer';
+import { num2Field_t1, num2Field_t2 } from '../utils/scaledWeights2Int65';
+import { InputImage } from '../inputImage';
+import { image_0_label_7_5x5 } from '../assets/image_0_label_7_5x5';
 
 await isReady;
 
@@ -110,10 +111,13 @@ describe('SmartSnarkyNet', () => {
     const zkAppInstance = new SmartSnarkyNet(zkAppAddress);
     let initial = Field.zero;
     await localDeploy(zkAppInstance, zkAppPrivateKey, deployerAccount);
-    let snarkyLayer1s = new SnarkyLayer1(preprocessWeights(weights_l1), 'relu');
+    let snarkyLayer1s = new SnarkyLayer1(
+      preprocessWeights(weights_l1_5x5),
+      'relu'
+    );
 
     let snarkyLayer2s = new SnarkyLayer2(
-      preprocessWeights(weights_l2),
+      preprocessWeights(weights_l2_5x5),
       'softmax'
     );
     // create an instance of the model
@@ -122,8 +126,9 @@ describe('SmartSnarkyNet', () => {
     // const state = zkAppInstance.state.get();
     // expect(state).toEqual(Field(0));
     let pred = zkAppInstance.predict(
-      new ImageVector(preprocessImage(image_0_label_7)),
-      model
+      new InputImage(preprocessImage(image_0_label_7_5x5)),
+      snarkyLayer1s,
+      snarkyLayer2s
     );
   });
 });

@@ -9,8 +9,12 @@ import {
   AccountUpdate,
   setGraphqlEndpoint,
 } from 'snarkyjs';
-import { SmartSnarkyNet } from './smart_snarkynet.js';
-import { SnarkyLayer1, SnarkyLayer2, SnarkyNet } from './snarkynet.js';
+
+await isReady;
+
+import { SmartSnarkyNet } from './smartSnarkyNet.js';
+import { SnarkyNet } from './snarkyNet.js';
+import { SnarkyLayer1, SnarkyLayer2 } from './snarkyLayer.js';
 import { weights_l1 } from './assets/weights_l1_scaled_3.js';
 import { weights_l2 } from './assets/weights_l2_scaled_3.js';
 import { scaleImage } from './utils/preprocessingWeightsFloat2Int.js';
@@ -31,12 +35,28 @@ import {
 import { deploy } from './utils/deploy.js';
 import { makeAndSendTransaction } from './utils/utils.js';
 import { num2Field_t2 } from './utils/scaledWeights2Int65.js';
-import { ImageVector } from './ImageClass.js';
+
+const initialBalance = 10_000_000;
 
 function preprocessWeights(weightsScaled: number[][]): Array<Field>[] {
   const weights_l1_preprocessed = num2Field_t2(weightsScaled);
   // const weights_l2_preprocessed = await num2Field_t2(weights_l2);
   return weights_l1_preprocessed;
+}
+
+async function localDeploy(
+  zkAppInstance: SmartSnarkyNet,
+  zkAppPrivatekey: PrivateKey,
+  deployerAccount: PrivateKey
+  // initial: Field
+) {
+  const txn = await Mina.transaction(deployerAccount, () => {
+    AccountUpdate.fundNewAccount(deployerAccount, { initialBalance });
+    zkAppInstance.deploy({ zkappKey: zkAppPrivatekey });
+    // zkAppInstance.init(initial);
+    zkAppInstance.sign(zkAppPrivatekey);
+  });
+  await txn.send();
 }
 
 export async function runSnarkNet() {
@@ -69,16 +89,16 @@ export async function runSnarkNet() {
   //   new SnarkyLayer2(preprocessWeights(weights_l2), 'softmax'),
   // ];
 
-  let snarkyLayer1s = new SnarkyLayer1(preprocessWeights(weights_l1), 'relu');
+  // let snarkyLayer1s = new SnarkyLayer1(preprocessWeights(weights_l1), 'relu');
 
-  let snarkyLayer2s = new SnarkyLayer2(
-    preprocessWeights(weights_l2),
-    'softmax'
-  );
+  // let snarkyLayer2s = new SnarkyLayer2(
+  //   preprocessWeights(weights_l2),
+  //   'softmax'
+  // );
   // create an instance of the model
   console.log('Create SNAPP Instance', new Date().getTime() / 1000 - startTime);
 
-  let snappInstance: SmartSnarkyNet;
+  // let snappInstance: SmartSnarkyNet;
 
   // // Deploys the snapp
   console.log('Deploy the SNAPP', new Date().getTime() / 1000 - startTime);
@@ -106,25 +126,43 @@ export async function runSnarkNet() {
   console.log('Compiling smart contract...');
   let { verificationKey } = await SmartSnarkyNet.compile();
   console.log('smart contract compiled...');
-  // setGraphqlEndpoint(Local);
-  await deploy(
-    // deployerPrivateKey,
-    account1,
-    // zkAppPrivateKey,
-    zkappPrivkey,
-    // zkAppPublicKey,
-    zkappPubkey,
-    // zkapp,
-    zkapp,
-    verificationKey
-  );
 
+  // await deploy(
+  //   // deployerPrivateKey,
+  //   account1,
+  //   // zkAppPrivateKey,
+  //   zkappPrivkey,
+  //   // zkAppPublicKey,
+  //   zkappPubkey,
+  //   // zkapp,
+  //   zkapp,
+  //   verificationKey
+  // );
+
+  const zkAppInstance = new SmartSnarkyNet(zkappPubkey);
+  localDeploy(zkAppInstance, zkappPrivkey, account1);
+  console.log('Deployed');
   //////////////////////////////// Test 1 ////////////////////////////////
-  console.log(
-    'Test 1 - Start: Run prediction on image_4:',
-    new Date().getTime() / 1000 - startTime
-  );
+  // console.log(
+  //   'Test 1 - Start: Run prediction on image_4:',
+  //   new Date().getTime() / 1000 - startTime
+  // );
 
+  console.log('build transaction and create proof...');
+  let tx = await Mina.transaction(
+    { feePayerKey: zkappPrivkey, fee: 0.1e9 },
+    () => {
+      zkAppInstance.classification.get();
+    }
+  );
+  await tx.prove();
+  console.log('send transaction...');
+  let sentTx = await tx.send();
+  console.log('wait for transaction...', sentTx);
+  if (sentTx.hash() !== undefined) {
+    console.log(`
+Success! Update transaction sent.`);
+  }
   // await makeAndSendTransaction({
   //   feePayerPrivateKey: zkappPrivkey,
   //   zkAppPublicKey: zkappPubkey,
@@ -146,22 +184,22 @@ export async function runSnarkNet() {
   // // console.log('Class State:', a.snapp.appState[0].toString());
 
   await fetchAccount({ publicKey: zkappPubkey });
-  let state = await zkapp.state.get();
+  let state = await zkapp.classification.get();
   console.log('Class State after the update:', state.toString());
   // Shutdown
   shutdown();
 }
 
-export async function createModel() {
-  let layers = [
-    new SnarkyLayer1(preprocessWeights(weights_l1), 'relu'),
-    new SnarkyLayer2(preprocessWeights(weights_l2), 'softmax'),
-  ];
-  console.log(layers);
-}
+// export async function createModel() {
+//   let layers = [
+//     new SnarkyLayer1(preprocessWeights(weights_l1), 'relu'),
+//     new SnarkyLayer2(preprocessWeights(weights_l2), 'softmax'),
+//   ];
+//   console.log(layers);
+// }
 
 console.log('Start');
 await runSnarkNet();
-await createModel();
+// await createModel();
 
 console.log('End');
