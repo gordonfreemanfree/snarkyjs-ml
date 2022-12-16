@@ -13,7 +13,7 @@ export default function Acknowledgement() {
             href="https://github.com/Makalfo/SnarkyNet-MNIST-Digits"
             className={styles.link}
           >
-            Malkofo's SnarkyNet-MNIST-Digits
+            Malkofos SnarkyNet-MNIST-Digits
           </a>{' '}
           as a starting point, but improved the concept of zk ML Application by
           porting the prediction into a circuit.

@@ -44,7 +44,7 @@ export default function Description() {
         </li>
         <li>
           The input shape of the original MNIST (28x28) was scaled down to
-          (8x8). The reason for that is that bigger image sizes couldn't be run
+          (8x8). The reason for that is that bigger image sizes could not be run
           in the current circuit size. That leads to an accuracy of the model of
           about 90%.
         </li>

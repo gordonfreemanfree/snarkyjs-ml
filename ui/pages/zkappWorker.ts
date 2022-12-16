@@ -140,11 +140,11 @@ const functions = {
     console.log('inputImage_state.inputImage1', inputImage_state.inputImage1)
 
     const transaction = await Mina.transaction(() => {
-      state.zkapp!.predict(
-        inputImage_state.inputImage1,
-        layer1_state.layer1,
-        layer2_state.layer2,
-      )
+      // state.zkapp!.predict(
+      //   inputImage_state.inputImage1,
+      //   layer1_state.layer1,
+      //   layer2_state.layer2,
+      // )
     })
     state.transaction = transaction
     console.log('transaction', transaction)

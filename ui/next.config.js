@@ -31,6 +31,12 @@ const nextConfig = {
       },
     ]
   },
+  images: {
+    unoptimized: true,
+  },
+  basePath: process.env.NODE_ENV === 'production' ? '/snarkyjs-ml' : undefined, // update if your repo name changes for 'npm run deploy' to work successfully
+  assetPrefix:
+    process.env.NODE_ENV === 'production' ? '/snarkyjs-ml/' : undefined, // update if your repo name changes for 'npm run deploy' to work successfully
 }
 
 module.exports = nextConfig
