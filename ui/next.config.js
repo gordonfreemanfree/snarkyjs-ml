@@ -5,11 +5,12 @@ const nextConfig = {
 
   pageExtensions: ['page.tsx', 'page.ts', 'page.jsx', 'page.js'],
   webpack(config) {
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      snarkyjs: require('path').resolve('node_modules/snarkyjs'),
-    }
-    return config;
+    ;(config.experiments.topLevelAwait = true),
+      (config.resolve.alias = {
+        ...config.resolve.alias,
+        snarkyjs: require('path').resolve('node_modules/snarkyjs'),
+      })
+    return config
   },
   // To enable SnarkyJS for the web, we must set the COOP and COEP headers.
   // See here for more information: https://docs.minaprotocol.com/zkapps/how-to-write-a-zkapp-ui#enabling-coop-and-coep-headers
@@ -28,8 +29,8 @@ const nextConfig = {
           },
         ],
       },
-    ];
-  }
-};
+    ]
+  },
+}
 
 module.exports = nextConfig

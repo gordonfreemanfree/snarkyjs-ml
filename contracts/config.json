@@ -1,4 +1,17 @@
 {
   "version": 1,
-  "networks": {}
+  "networks": {
+    "berkeley": {
+      "url": "https://proxy.berkeley.minaexplorer.com/graphql",
+      "keyPath": "keys/berkeley.json",
+      "fee": ".1",
+      "smartContract": "SmartSnarkyNet"
+    },
+    "berkeley2": {
+      "url": "https://proxy.berkeley.minaexplorer.com/graphql",
+      "keyPath": "keys/berkeley2.json",
+      "fee": ".1",
+      "smartContract": "SmartSnarkyNet"
+    }
+  }
 }

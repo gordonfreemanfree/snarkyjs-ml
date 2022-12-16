@@ -4,12 +4,12 @@
 // This is done because we canot use floating point numbers in the snarky circuit
 
 import { Field, isReady, UInt64 } from 'snarkyjs';
-import { Int65 } from '../Int65_v4.js';
+
 import fs from 'fs';
-import { weights_l1, weights_l2 } from '../assets/weights.js';
+import { weights_l1, weights_l2 } from '../assets/weights_8x8.js';
 
 await isReady;
-function floatToScaledInt65(num: number, power: number = 4): number {
+function floatToScaledField(num: number, power: number = 3): number {
   let scale_factor = Math.pow(10, power);
   let scaled_num = Math.round(num * scale_factor);
 
@@ -23,16 +23,17 @@ function readWeights(weigth_float: number[][]) {
   for (let i = 0; i < weights.length; i++) {
     scaled_weights[i] = new Array(weights[i].length);
     for (let j = 0; j < weights[i].length; j++) {
-      scaled_weights[i][j] = floatToScaledInt65(weights[i][j]);
+      scaled_weights[i][j] = floatToScaledField(weights[i][j]);
     }
   }
   return scaled_weights;
 }
 
-export function scaleImage(image: number[]): Int65[] {
+export function scaleImage(image: number[]): Field[] {
   let scaled_image = new Array(image.length);
   for (let i = 0; i < image.length; i++) {
-    scaled_image[i] = Int65.from(floatToScaledInt65(image[i]));
+    scaled_image[i] = Field(floatToScaledField(image[i]));
+    // scaled_image[i] = Field(image[i]);
   }
   return scaled_image;
 }
@@ -47,8 +48,8 @@ function writeScaledArray(array: number[][], name: string) {
 }
 
 console.log('writing weights to file');
-writeScaledArray(weights_l1, 'weights_l1_scaled');
-writeScaledArray(weights_l2, 'weights_l2_scaled');
+writeScaledArray(weights_l1, 'weights_l1_8x8');
+writeScaledArray(weights_l2, 'weights_l2_8x8');
 console.log('done');
 
 // // let scaled_weights = readWeights();
