@@ -1,5 +1,6 @@
 import React from 'react'
 import styles from '../styles/Home.module.css'
+import Image from 'next/image'
 
 export default function Description() {
   return (
@@ -28,7 +29,7 @@ export default function Description() {
         </li>
       </p>
       <div className={styles.description}>
-        <img src="/snarky_v1.002.png" alt="" width={500} height={500} />
+        <Image src="/snarky_v1.002.png" alt="" width={500} height={500} />
       </div>
       <ul className={styles.description1}>
         <li>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import styles from '../styles/Home.module.css'
 import { Field } from 'snarkyjs'
+import Image from 'next/image'
 
 export function Demo(props: any) {
   // const [selectedImage, setSelectedImage] = useState<Array<Field>>(Array<Field>)
@@ -309,19 +310,19 @@ export function Demo(props: any) {
       </p>
       <div className={styles.grid}>
         <div className={styles.card} onClick={() => handleClick(imageArray_0)}>
-          <img src="/image_0_label_7_original.png" alt="" />
+          <Image src="/image_0_label_7_original.png" alt="" />
           <p className={styles.description}>This is a 7</p>
         </div>
         <div className={styles.card} onClick={() => handleClick(imageArray_1)}>
-          <img src="/image_1_label_2_original.png" alt="" />
+          <Image src="/image_1_label_2_original.png" alt="" />
           <p className={styles.description}>This is a 2</p>
         </div>
         <div className={styles.card} onClick={() => handleClick(imageArray_2)}>
-          <img src="/image_2_label_1_orginal.png" alt="" />
+          <Image src="/image_2_label_1_orginal.png" alt="" />
           <p className={styles.description}>This is a 1</p>
         </div>
         <div className={styles.card} onClick={() => handleClick(imageArray_3)}>
-          <img src="/image_3_label_0_orginal.png" alt="" />
+          <Image src="/image_3_label_0_orginal.png" alt="" />
           <p className={styles.description}>This is a 0</p>
         </div>
       </div>
