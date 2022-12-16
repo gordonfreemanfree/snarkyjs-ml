@@ -6,7 +6,7 @@
 import { Field, isReady, UInt64 } from 'snarkyjs';
 
 import fs from 'fs';
-import { weights_l1, weights_l2 } from '../assets/weights_5x5.js';
+import { weights_l1, weights_l2 } from '../assets/weights_8x8.js';
 
 await isReady;
 function floatToScaledField(num: number, power: number = 3): number {
@@ -48,8 +48,8 @@ function writeScaledArray(array: number[][], name: string) {
 }
 
 console.log('writing weights to file');
-writeScaledArray(weights_l1, 'weights_l1_5x5');
-writeScaledArray(weights_l2, 'weights_l2_5x5');
+writeScaledArray(weights_l1, 'weights_l1_8x8');
+writeScaledArray(weights_l2, 'weights_l2_8x8');
 console.log('done');
 
 // // let scaled_weights = readWeights();

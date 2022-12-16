@@ -21,15 +21,15 @@ import { isReady, Field } from 'snarkyjs';
 //   image_18_label_3,
 //   image_19_label_4,
 // } from './assets/test_images_10x10.js';
-import { image_0_label_7 } from './assets/image_0_label_7.js';
-import { image_1_label_2 } from './assets/image_1_label_2.js';
-import { image_2_label_1 } from './assets/image_2_label_1.js';
+import { image_0_label_7 } from './assets/image_0_label_7_10x10.js';
+import { image_1_label_2 } from './assets/image_1_label_2_10x10.js';
+import { image_2_label_1 } from './assets/image_2_label_1_10x10.js';
 import { image_3_label_0 } from './assets/image_3_label_0.js';
 
-import { SnarkyNet } from './snarkyNet.js';
+import { SnarkyNet } from './snarkynet.js';
 import { SnarkyLayer1, SnarkyLayer2 } from './snarkyLayer.js';
-import { weights_l1 } from './assets/weights_l1_scaled_3.js';
-import { weights_l2 } from './assets/weights_l2_scaled_3.js';
+import { weights_l1 } from './assets/weights_l1_scaled_3_10x10.js';
+import { weights_l2 } from './assets/weights_l2_scaled_3_10x10.js';
 import { num2Field_t1, num2Field_t2 } from './utils/scaledWeights2Int65.js';
 import { scaleImage } from './utils/preprocessingWeightsFloat2Int.js';
 import { InputImage } from './inputImage.js';

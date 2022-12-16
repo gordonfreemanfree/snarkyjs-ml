@@ -15,7 +15,7 @@ import {
 } from 'snarkyjs';
 import { SnarkyLayer1, SnarkyLayer2 } from './snarkyLayer.js';
 import { InputImage } from './inputImage.js';
-import { SnarkyNet } from './snarkyNet.js';
+import { SnarkyNet } from './snarkynet.js';
 
 export class SmartSnarkyNet extends SmartContract {
   // Field State to store the classification

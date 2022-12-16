@@ -13,10 +13,10 @@ import {
 await isReady;
 
 import { SmartSnarkyNet } from './smartSnarkyNet.js';
-import { SnarkyNet } from './snarkyNet.js';
+import { SnarkyNet } from './snarkynet.js';
 import { SnarkyLayer1, SnarkyLayer2 } from './snarkyLayer.js';
-import { weights_l1 } from './assets/weights_l1_scaled_3.js';
-import { weights_l2 } from './assets/weights_l2_scaled_3.js';
+import { weights_l1 } from './assets/weights_l1_scaled_3_10x10.js';
+import { weights_l2 } from './assets/weights_l2_scaled_3_10x10.js';
 import { scaleImage } from './utils/preprocessingWeightsFloat2Int.js';
 
 import {

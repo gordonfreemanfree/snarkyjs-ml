@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-
+//import { getImgFromArr } from 'array-to-image';
 export default function DrawFreeform() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [isDrawing, setIsDrawing] = useState(false)
@@ -24,6 +24,8 @@ export default function DrawFreeform() {
     }
 
     context.stroke()
+
+    context.lineWidth = 8
   }, [points])
 
   function handleMouseDown(event: React.MouseEvent<HTMLCanvasElement>) {
@@ -53,57 +55,60 @@ export default function DrawFreeform() {
 
   function handleSave() {
     const canvas = canvasRef.current
-    const context = canvas.getContext('2d')
+    const dataUrl = canvas.toDataURL()
+    const image = new Image()
+    image.src = dataUrl
+    // convert image from base64 to an array of greyscale values
 
-    // Scale down the image
-    const scaledImageData = context.createImageData(10, 10)
+    image.onload = () => {
+      const scaledCanvas = document.createElement('canvas')
+      scaledCanvas.width = 8
+      scaledCanvas.height = 8
+      const context = scaledCanvas.getContext('2d')
+      context.drawImage(image, 0, 0, 8, 8)
 
-    for (let y = 0; y < 10; y++) {
-      for (let x = 0; x < 10; x++) {
-        const i = y * 10 + x
-        const j = (y * 100 + x) * 4
-        scaledImageData.data[i * 4] = scaledImageData.data[j]
-        scaledImageData.data[i * 4 + 1] = scaledImageData.data[j + 1]
-        scaledImageData.data[i * 4 + 2] = scaledImageData.data[j + 2]
-        scaledImageData.data[i * 4 + 3] = scaledImageData.data[j + 3]
+      const scaledImageData = context.getImageData(0, 0, 8, 8)
+
+      var normalArray = Array.from(scaledImageData.data)
+      // console.log(normalArray)
+
+      // convert one dimension array to greyscale
+      const savedImageData2 = []
+      for (let i = 0; i < normalArray.length; i += 4) {
+        // console.log(i)
+        const r = normalArray[i]
+        const g = normalArray[i + 1]
+        const b = normalArray[i + 2]
+        const z = normalArray[i + 3]
+        const v = (r + g + b + z) / 100000
+        savedImageData2.push(v)
       }
-    }
+      // THIS IS THE ARRAY
+      console.log(savedImageData2)
 
-    // Convert to grayscale
-    for (let i = 0; i < scaledImageData.data.length; i += 4) {
-      const r = scaledImageData.data[i]
-      const g = scaledImageData.data[i + 1]
-      const b = scaledImageData.data[i + 2]
-      const v = 0.2126 * r + 0.7152 * g + 0.0722 * b
-      scaledImageData.data[i] = v
-      scaledImageData.data[i + 1] = v
-      scaledImageData.data[i + 2] = v
+      setSavedImageData(savedImageData)
+      //console.log(savedImageData)
     }
+  }
 
-    const savedImageData = new Array(10)
-    for (let y = 0; y < 10; y++) {
-      savedImageData[y] = new Array(10)
-      for (let x = 0; x < 10; x++) {
-        const i = y * 10 + x
-        savedImageData[y][x] = scaledImageData.data[i * 4]
-      }
-    }
-
-    setSavedImageData(savedImageData)
-    console.log(savedImageData)
+  function handleReset() {
+    setPoints([])
+    setSavedImageData(null)
   }
 
   return (
-    <>
+    <div style={{ border: '3px solid black', width: '150px', height: '150px' }}>
       <canvas
         ref={canvasRef}
-        width={100}
-        height={100}
+        width={130}
+        height={130}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
       />
+      <br />
       <button onClick={handleSave}>Save</button>
-    </>
+      <button onClick={handleReset}>Reset</button>
+    </div>
   )
 }

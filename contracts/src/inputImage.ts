@@ -3,7 +3,7 @@ import { Field, CircuitValue, arrayProp } from 'snarkyjs';
 // This is the class that will be used to store the image vector
 // the size of the matrix is 1x100
 export class InputImage extends CircuitValue {
-  @arrayProp(Field, 25) value: Array<Field>;
+  @arrayProp(Field, 64) value: Array<Field>;
 
   constructor(vector: Field[]) {
     super();

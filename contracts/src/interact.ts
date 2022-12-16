@@ -24,6 +24,9 @@ import { image_0_label_7_5x5 } from './assets/image_0_label_7_5x5.js';
 import { image_2_label_1_5x5 } from './assets/image_2_label_1_5x5.js';
 import { image_1_label_2_5x5 } from './assets/image_1_label_2_5x5.js';
 import { image_3_label_0_5x5 } from './assets/image_3_label_0_5x5.js';
+import { image_0_label_7_8x8 } from './assets/image_0_label_7_8x8.js';
+import { weights_l1_8x8 } from './assets/weights_l1_8x8.js';
+import { weights_l2_8x8 } from './assets/weights_l2_8x8.js';
 
 // check command line arg
 let network = process.argv[2];
@@ -60,10 +63,10 @@ await SmartSnarkyNet.compile();
 console.log('zkapp compiled');
 
 // ------------------ init layers ------------------
-let snarkyLayer1s = new SnarkyLayer1(preprocessWeights(weights_l1_5x5), 'relu');
+let snarkyLayer1s = new SnarkyLayer1(preprocessWeights(weights_l1_8x8), 'relu');
 
 let snarkyLayer2s = new SnarkyLayer2(
-  preprocessWeights(weights_l2_5x5),
+  preprocessWeights(weights_l2_8x8),
   'softmax'
 );
 // // ------------------ send transaction ------------------
@@ -106,14 +109,15 @@ function preprocessImage(image: number[]): Array<Field> {
 
 // ------------------ send transaction ------------------
 console.log('build transaction and create proof...');
-let tx = await Mina.transaction({ feePayerKey: zkAppKey, fee: 0.1e9 }, () => {
+let tx = await Mina.transaction({ feePayerKey: zkAppKey, fee: 0.2e9 }, () => {
   zkApp.predict(
-    new InputImage(preprocessImage(image_0_label_7_5x5)),
+    new InputImage(preprocessImage(image_0_label_7_8x8)),
     snarkyLayer1s,
     snarkyLayer2s
   );
 });
 await tx.prove();
+// await tx.sign();
 console.log('proof created');
 console.log('send transaction...');
 let sentTx = await tx.send();

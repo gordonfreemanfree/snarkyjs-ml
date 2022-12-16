@@ -4,6 +4,19 @@ import { weights_l1_5x5 } from './assets/weights_l1_5x5.js';
 import { weights_l2_5x5 } from './assets/weights_l2_5x5.js';
 import { num2Field_t1, num2Field_t2 } from './utils/scaledWeights2Int65.js';
 import { InputImage } from './inputImage.js';
+import { weights_l1 } from './assets/weights_l1_scaled_3_10x10.js';
+import { weights_l2 } from './assets/weights_l2_scaled_3_10x10.js';
+import { image_0_label_7 } from './assets/image_0_label_7_10x10.js';
+import { image_1_label_2 } from './assets/image_1_label_2_10x10.js';
+import { image_2_label_1 } from './assets/image_2_label_1_10x10.js';
+
+import { weights_l1_8x8 } from './assets/weights_l1_8x8.js';
+import { weights_l2_8x8 } from './assets/weights_l2_8x8.js';
+import { image_0_label_7_8x8 } from './assets/image_0_label_7_8x8.js';
+import { image_1_label_2_8x8 } from './assets/image_1_label_2_8x8.js';
+import { image_2_label_1_8x8 } from './assets/image_2_label_1_8x8.js';
+import { image_3_label_0_8x8 } from './assets/image_3_label_0_8x8.js';
+import { image_test_8x8_1 } from './assets/image_test_8x8_1.js';
 
 import {
   isReady,
@@ -67,12 +80,12 @@ import { image_3_label_0_5x5 } from './assets/image_3_label_0_5x5.js';
   // ----------------------------------------------------
 
   let snarkyLayer1s = new SnarkyLayer1(
-    preprocessWeights(weights_l1_5x5),
+    preprocessWeights(weights_l1_8x8),
     'relu'
   );
 
   let snarkyLayer2s = new SnarkyLayer2(
-    preprocessWeights(weights_l2_5x5),
+    preprocessWeights(weights_l2_8x8),
     'softmax'
   );
   // ----------------------------------------------------
@@ -94,7 +107,7 @@ import { image_3_label_0_5x5 } from './assets/image_3_label_0_5x5.js';
 
   const txn1 = await Mina.transaction(deployerAccount, () => {
     zkAppInstance.predict(
-      new InputImage(preprocessImage(image_0_label_7_5x5)),
+      new InputImage(preprocessImage(image_0_label_7_8x8)),
       snarkyLayer1s,
       snarkyLayer2s
     );
@@ -112,7 +125,7 @@ import { image_3_label_0_5x5 } from './assets/image_3_label_0_5x5.js';
   try {
     const txn2 = await Mina.transaction(deployerAccount, () => {
       zkAppInstance.predict(
-        new InputImage(preprocessImage(image_1_label_2_5x5)),
+        new InputImage(preprocessImage(image_1_label_2_8x8)),
         snarkyLayer1s,
         snarkyLayer2s
       );
@@ -131,7 +144,7 @@ import { image_3_label_0_5x5 } from './assets/image_3_label_0_5x5.js';
 
   const txn3 = await Mina.transaction(deployerAccount, () => {
     zkAppInstance.predict(
-      new InputImage(preprocessImage(image_3_label_0_5x5)),
+      new InputImage(preprocessImage(image_test_8x8_1)),
       snarkyLayer1s,
       snarkyLayer2s
     );
@@ -145,7 +158,7 @@ import { image_3_label_0_5x5 } from './assets/image_3_label_0_5x5.js';
   await txn3.send();
 
   const num3 = zkAppInstance.classification.get();
-  console.log('classification after txn3, should be 0:', num3.toString());
+  console.log('classification after txn3, should be 1:', num3.toString());
 
   // ----------------------------------------------------
 

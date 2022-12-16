@@ -12,7 +12,7 @@ import { SnarkyTensor } from './snarkyTensor.js';
 await isReady;
 // create a layer
 class SnarkyLayer1 extends SnarkyTensor {
-  @matrixProp(Field, 25, 10) weights: Array<Field>[]; // weights
+  @matrixProp(Field, 64, 10) weights: Array<Field>[]; // weights
   activation: Function; // activation function
   alpha: Field; // alpha value for leaky relu / it is scaled by 1000
   decimal: number; // multiplier for decimals
