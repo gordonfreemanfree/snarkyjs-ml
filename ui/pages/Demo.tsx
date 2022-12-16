@@ -310,19 +310,39 @@ export function Demo(props: any) {
       </p>
       <div className={styles.grid}>
         <div className={styles.card} onClick={() => handleClick(imageArray_0)}>
-          <Image src="/image_0_label_7_original.png" alt="" />
+          <Image
+            src="/image_0_label_7_original.png"
+            alt=""
+            width={200}
+            height={200}
+          />
           <p className={styles.description}>This is a 7</p>
         </div>
         <div className={styles.card} onClick={() => handleClick(imageArray_1)}>
-          <Image src="/image_1_label_2_original.png" alt="" />
+          <Image
+            src="/image_1_label_2_original.png"
+            alt=""
+            width={200}
+            height={200}
+          />
           <p className={styles.description}>This is a 2</p>
         </div>
         <div className={styles.card} onClick={() => handleClick(imageArray_2)}>
-          <Image src="/image_2_label_1_orginal.png" alt="" />
+          <Image
+            src="/image_2_label_1_orginal.png"
+            alt=""
+            width={200}
+            height={200}
+          />
           <p className={styles.description}>This is a 1</p>
         </div>
         <div className={styles.card} onClick={() => handleClick(imageArray_3)}>
-          <Image src="/image_3_label_0_orginal.png" alt="" />
+          <Image
+            src="/image_3_label_0_orginal.png"
+            alt=""
+            width={200}
+            height={200}
+          />
           <p className={styles.description}>This is a 0</p>
         </div>
       </div>
