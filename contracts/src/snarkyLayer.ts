@@ -9,7 +9,7 @@ import { Field, isReady, UInt64, matrixProp, CircuitValue } from 'snarkyjs';
 
 import { SnarkyTensor } from './snarkyTensor.js';
 
-await isReady;
+// await isReady;
 // create a layer
 class SnarkyLayer1 extends SnarkyTensor {
   @matrixProp(Field, 64, 10) weights: Array<Field>[]; // weights
