@@ -35,7 +35,7 @@ const layer2_state = {
 
 const inputImage_state = {
   InputImage: null as null | typeof InputImage,
-  inputImage: null as null | InputImage,
+  inputImage1: null as null | InputImage,
 }
 
 // ---------------------------------------------------------------------------------------
@@ -69,6 +69,13 @@ const functions = {
       '../../contracts/build/src/snarkyLayer.js'
     )
     layer2_state.SnarkyLayer2 = SnarkyLayer2
+  },
+
+  loadInputImage: async (args: {}) => {
+    const { InputImage } = await import(
+      '../../contracts/build/src/inputImage.js'
+    )
+    inputImage_state.InputImage = InputImage
   },
 
   // loadModel: async (args: {}) => {
@@ -127,11 +134,14 @@ const functions = {
     //   args.weights_l2_8x8,
     //   'softmax',
     // )
-    const selectedImage = new inputImage_state.InputImage!(args.selectedImage)
+    inputImage_state.inputImage1 = new inputImage_state.InputImage!(
+      args.selectedImage,
+    )
+    console.log('inputImage_state.inputImage1', inputImage_state.inputImage1)
 
     const transaction = await Mina.transaction(() => {
       state.zkapp!.predict(
-        selectedImage,
+        inputImage_state.inputImage1,
         layer1_state.layer1,
         layer2_state.layer2,
       )
