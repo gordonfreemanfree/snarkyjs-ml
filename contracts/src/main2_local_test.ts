@@ -1,4 +1,4 @@
-import { SmartSnarkyNet } from './smartSnarkyNet.js';
+import { SmartSnarkyNet } from './SmartSnarkyNet.js';
 import { SnarkyLayer1, SnarkyLayer2 } from './snarkyLayer.js';
 import { weights_l1_5x5 } from './assets/weights_l1_5x5.js';
 import { weights_l2_5x5 } from './assets/weights_l2_5x5.js';

@@ -16,7 +16,7 @@ import { image_0_label_7 } from '../assets/test_images_5x5';
 import { weights_l1_5x5 } from '../assets/weights_l1_5x5';
 import { weights_l2_5x5 } from '../assets/weights_l2_5x5';
 
-import { SmartSnarkyNet } from '../smartSnarkyNet';
+import { SmartSnarkyNet } from '../SmartSnarkyNet';
 import { SnarkyNet } from '../snarkynet';
 import { SnarkyLayer1, SnarkyLayer2 } from '../snarkyLayer';
 import { num2Field_t1, num2Field_t2 } from '../utils/scaledWeights2Int65';

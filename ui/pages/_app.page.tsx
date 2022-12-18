@@ -9,6 +9,7 @@ import { Demo } from './Demo'
 import Description from './Description'
 import Usecases from './useCases'
 import Acknowledgement from './acknowledgement'
+import Home from './index.page'
 // import { weights_l1_8x8 } from '../public/weights_l1_8x8'
 // import { weights_l2_8x8 } from '../public/weights_l2_8x8'
 
@@ -75,7 +76,7 @@ export default function App(props: any) {
         console.log('zkApp compiled')
 
         const zkappPublicKey = PublicKey.fromBase58(
-          'B62qph2VodgSo5NKn9gZta5BHNxppgZMDUihf1g7mXreL4uPJFXDGDA',
+          'B62qkHxUSxWrzWwZEZovfYHWoF8NpWxHubwqMx5i1fjhJd5RvvFfbZA',
         )
 
         await zkappWorkerClient.initZkappInstance(zkappPublicKey)
@@ -265,6 +266,10 @@ export default function App(props: any) {
   if (state.hasBeenSetup && state.accountExists) {
     mainContent = (
       <div>
+        <Demo setSelectedImage={setSelectedImage} selectedImage={selectedImage} />
+      <Description />
+      <Usecases />
+      <Acknowledgement />
         <button
           onClick={onSendTransaction}
           disabled={state.creatingTransaction}
@@ -282,10 +287,7 @@ export default function App(props: any) {
 
   return (
     <div>
-      <Demo setSelectedImage={setSelectedImage} selectedImage={selectedImage} />
-      <Description />
-      <Usecases />
-      <Acknowledgement />
+      <Home />
       {setup}
       {accountDoesNotExist}
       {mainContent}

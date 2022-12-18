@@ -6,7 +6,7 @@ import {
   AccountUpdate,
   fetchAccount,
 } from 'snarkyjs';
-import { SmartSnarkyNet } from '../smartSnarkyNet';
+import { SmartSnarkyNet } from '../SmartSnarkyNet';
 
 let transactionFee = 100_000_000;
 

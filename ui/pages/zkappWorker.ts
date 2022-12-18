@@ -11,7 +11,7 @@ type Transaction = Awaited<ReturnType<typeof Mina.transaction>>
 
 // ---------------------------------------------------------------------------------------
 
-import type { SmartSnarkyNet } from '../../contracts/src/smartSnarkyNet'
+import type { SmartSnarkyNet } from '../../contracts/src/SmartSnarkyNet'
 import type {
   SnarkyLayer1,
   SnarkyLayer2,
@@ -52,7 +52,7 @@ const functions = {
   },
   loadContract: async (args: {}) => {
     const { SmartSnarkyNet } = await import(
-      '../../contracts/build/src/smartSnarkynet.js'
+      '../../contracts/build/src/SmartSnarkyNet.js'
     )
     state.SmartSnarkyNet = SmartSnarkyNet
   },

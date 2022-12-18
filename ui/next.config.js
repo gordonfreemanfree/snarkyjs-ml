@@ -4,12 +4,19 @@ const nextConfig = {
   swcMinify: true,
 
   pageExtensions: ['page.tsx', 'page.ts', 'page.jsx', 'page.js'],
+  // webpack(config) {
+  //   ;(config.experiments.topLevelAwait = true),
+  //     (config.resolve.alias = {
+  //       ...config.resolve.alias,
+  //       snarkyjs: require('path').resolve('node_modules/snarkyjs'),
+  //     })
   webpack(config) {
     ;(config.experiments.topLevelAwait = true),
       (config.resolve.alias = {
         ...config.resolve.alias,
         snarkyjs: require('path').resolve('node_modules/snarkyjs'),
       })
+    config.optimization.minimizer = []
     return config
   },
   // To enable SnarkyJS for the web, we must set the COOP and COEP headers.
