@@ -6,7 +6,7 @@ export default function Usecases() {
     <div className={styles.card3}>
       <h1 className={styles.title}>Future applications</h1>
       <div className={styles.description}>
-        <Image src="/snarky_v1.001.png" alt="" width={700} height={500} />
+        <Image src="/snarky_v1_001.png" alt="" width={700} height={500} />
       </div>
       <ul className={styles.description1}>
         <li>

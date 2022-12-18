@@ -29,7 +29,7 @@ export default function Description() {
         </li>
       </p>
       <div className={styles.description}>
-        <Image src="/snarky_v1.002.png" alt="" width={500} height={500} />
+        <Image src="/snarky_v1_002.png" alt="" width={500} height={500} />
       </div>
       <ul className={styles.description1}>
         <li>
