@@ -1,3 +1,3 @@
 import { SmartSnarkyNet } from './SmartSnarkyNet.js';
-
-export { SmartSnarkyNet };
+import { InputImage } from './inputImage.js';
+export { SmartSnarkyNet, InputImage };

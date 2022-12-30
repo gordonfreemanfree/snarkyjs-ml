@@ -69,29 +69,31 @@ let snarkyLayer2s = new SnarkyLayer2(
   preprocessWeights(weights_l2_8x8),
   'softmax'
 );
-// // ------------------ send transaction ------------------
-// console.log('build transaction and create proof...');
-// let txInit = await Mina.transaction(
-//   { feePayerKey: zkAppKey, fee: 0.1e9 },
-//   () => {
-//     zkApp.initState(snarkyLayer1s, snarkyLayer2s);
-//     zkApp.sign(zkAppKey);
-//   }
-// );
-// // await txInit.prove();
-// await txInit.sign();
-// console.log('send transaction...');
-// let sentTxInit = await txInit.send();
+// initialize the layers with init transaction
+// has to be done before calling predict()
+// ------------------ send transaction ------------------
+console.log('build transaction and create proof...');
+let txInit = await Mina.transaction(
+  { feePayerKey: zkAppKey, fee: 0.1e8 },
+  () => {
+    zkApp.initState(snarkyLayer1s, snarkyLayer2s);
+    zkApp.sign(zkAppKey);
+  }
+);
+// await txInit.prove();
+await txInit.sign();
+console.log('send transaction...');
+let sentTxInit = await txInit.send();
 
-// if (sentTxInit.hash() !== undefined) {
-//   console.log(`
-// Success! Init transaction sent.
+if (sentTxInit.hash() !== undefined) {
+  console.log(`
+Success! Init transaction sent.
 
-// Your smart contract state will be updated
-// as soon as the transaction is included in a block:
-// https://berkeley.minaexplorer.com/transaction/${sentTxInit.hash()}
-// `);
-// }
+Your smart contract state will be updated
+as soon as the transaction is included in a block:
+https://berkeley.minaexplorer.com/transaction/${sentTxInit.hash()}
+`);
+}
 
 // ------------------ load weights and image ------------------
 // call predict() and send transaction
@@ -107,28 +109,28 @@ function preprocessImage(image: number[]): Array<Field> {
   return imagePreprocessed;
 }
 
-// ------------------ send transaction ------------------
-console.log('build transaction and create proof...');
-let tx = await Mina.transaction({ feePayerKey: zkAppKey, fee: 0.2e9 }, () => {
-  zkApp.predict(
-    new InputImage(preprocessImage(image_0_label_7_8x8)),
-    snarkyLayer1s,
-    snarkyLayer2s
-  );
-});
-await tx.prove();
-// await tx.sign();
-console.log('proof created');
-console.log('send transaction...');
-let sentTx = await tx.send();
+// // ------------------ send transaction ------------------
+// console.log('build transaction and create proof...');
+// let tx = await Mina.transaction({ feePayerKey: zkAppKey, fee: 0.2e9 }, () => {
+//   zkApp.predict(
+//     new InputImage(preprocessImage(image_0_label_7_8x8)),
+//     snarkyLayer1s,
+//     snarkyLayer2s
+//   );
+// });
+// await tx.prove();
+// // await tx.sign();
+// console.log('proof created');
+// console.log('send transaction...');
+// let sentTx = await tx.send();
 
-if (sentTx.hash() !== undefined) {
-  console.log(`
-Success! Update transaction sent.
+// if (sentTx.hash() !== undefined) {
+//   console.log(`
+// Success! Update transaction sent.
 
-Your smart contract state will be updated
-as soon as the transaction is included in a block:
-https://berkeley.minaexplorer.com/transaction/${sentTx.hash()}
-`);
-}
+// Your smart contract state will be updated
+// as soon as the transaction is included in a block:
+// https://berkeley.minaexplorer.com/transaction/${sentTx.hash()}
+// `);
+//}
 shutdown();

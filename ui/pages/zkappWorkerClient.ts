@@ -28,6 +28,9 @@ export default class ZkappWorkerClient {
   loadLayer2() {
     return this._call('loadLayer2', {})
   }
+  loadInputImage() {
+    return this._call('loadInputImage', {})
+  }
 
   initLayer1(args: { weights_l1_8x8: Array<Field>[]; activation: string }) {
     return this._call('initLayer1', { args })
@@ -35,6 +38,9 @@ export default class ZkappWorkerClient {
 
   initLayer2(args: { weights_l2_8x8: Array<Field>[]; activation: string }) {
     return this._call('initLayer2', { args })
+  }
+  initInputImage(args: { selectedImage: Array<Field> }) {
+    return this._call('initInputImage', { args })
   }
 
   compileContract() {

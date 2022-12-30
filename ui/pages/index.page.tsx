@@ -16,7 +16,7 @@ export default function Home() {
       // To try it out, you can try this address for an example "Add" smart contract that we've deployed to
       // Berkeley Testnet B62qqkb7hD1We6gEfrcqosKt9C398VLp1WXeTo1i9boPoqF7B1LxHg4
       const zkAppAddress =
-        'B62qkHxUSxWrzWwZEZovfYHWoF8NpWxHubwqMx5i1fjhJd5RvvFfbZA'
+        'B62qrSgTkaLZAJjcgBp7SH7BXoN4UdgxBwRiBx9mJ34TyivW2MAV3KP'
       // This should be removed once the zkAppAddress is updated.
       if (!zkAppAddress) {
         console.error(

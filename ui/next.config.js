@@ -11,6 +11,20 @@ const nextConfig = {
   //       snarkyjs: require('path').resolve('node_modules/snarkyjs'),
   //     })
   webpack(config) {
+    module: {
+      rules: [
+        {
+          test: /\.js$/,
+          exclude: /node_modules/,
+          use: {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-env'],
+            },
+          },
+        },
+      ]
+    }
     ;(config.experiments.topLevelAwait = true),
       (config.resolve.alias = {
         ...config.resolve.alias,
