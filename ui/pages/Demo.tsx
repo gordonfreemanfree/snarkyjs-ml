@@ -2,6 +2,10 @@ import React, { useState } from 'react'
 import styles from '../styles/Home.module.css'
 import { Field } from 'snarkyjs'
 import Image from 'next/image'
+import image_0_label_7_original from '../public/image_0_label_7_original.png'
+import image_1_label_2_original from '../public/image_1_label_2_original.png'
+import image_2_label_1_original from '../public/image_2_label_1_original.png'
+import image_3_label_0_original from '../public/image_3_label_0_original.png'
 
 export function Demo(props: any) {
   // const [selectedImage, setSelectedImage] = useState<Array<Field>>(Array<Field>)
@@ -311,7 +315,7 @@ export function Demo(props: any) {
       <div className={styles.grid}>
         <div className={styles.card} onClick={() => handleClick(imageArray_0)}>
           <Image
-            src="/image_0_label_7_original.png"
+            src={image_0_label_7_original}
             alt=""
             width={200}
             height={200}
@@ -320,7 +324,7 @@ export function Demo(props: any) {
         </div>
         <div className={styles.card} onClick={() => handleClick(imageArray_1)}>
           <Image
-            src="/image_1_label_2_original.png"
+            src={image_1_label_2_original}
             alt=""
             width={200}
             height={200}
@@ -329,7 +333,7 @@ export function Demo(props: any) {
         </div>
         <div className={styles.card} onClick={() => handleClick(imageArray_2)}>
           <Image
-            src="/image_2_label_1_orginal.png"
+            src={image_2_label_1_original}
             alt=""
             width={200}
             height={200}
@@ -338,7 +342,7 @@ export function Demo(props: any) {
         </div>
         <div className={styles.card} onClick={() => handleClick(imageArray_3)}>
           <Image
-            src="/image_3_label_0_orginal.png"
+            src={image_3_label_0_original}
             alt=""
             width={200}
             height={200}

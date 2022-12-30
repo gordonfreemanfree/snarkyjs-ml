@@ -1,12 +1,14 @@
 import React from 'react'
 import styles from '../styles/Home.module.css'
 import Image from 'next/image'
+import snarky_v1_001 from '../public/snarky_v1_001.png'
+
 export default function Usecases() {
   return (
     <div className={styles.card3}>
       <h1 className={styles.title}>Future applications</h1>
       <div className={styles.description}>
-        <Image src="/snarky_v1_001.png" alt="" width={700} height={500} />
+        <Image src={snarky_v1_001} alt="" width={700} height={500} />
       </div>
       <ul className={styles.description1}>
         <li>

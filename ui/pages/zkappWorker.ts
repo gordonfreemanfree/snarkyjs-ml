@@ -7,6 +7,9 @@ import {
   fetchAccount,
 } from 'snarkyjs'
 
+import { weights_l1_8x8 } from '../public/weights_l1_8x8'
+import { weights_l2_8x8 } from '../public/weights_l2_8x8'
+
 type Transaction = Awaited<ReturnType<typeof Mina.transaction>>
 
 // ---------------------------------------------------------------------------------------
@@ -78,11 +81,6 @@ const functions = {
     inputImage_state.InputImage = InputImage
   },
 
-  // loadModel: async (args: {}) => {
-  //   const { SnarkyNet } = await import('../../contracts/build/src/snarkyNet.js')
-  //   return SnarkyNet
-  // },
-
   compileContract: async (args: {}) => {
     await state.SmartSnarkyNet!.compile()
   },
@@ -103,7 +101,6 @@ const functions = {
     weights_l1_8x8: Array<Field>[]
     activation: string
   }) => {
-    console.log('in initLayer1')
     let weight = args.weights_l1_8x8
     let activation = args.activation
 
@@ -127,12 +124,12 @@ const functions = {
     )
   },
 
-  createUpdateTransaction: async (args: {
+  createPredictUpdateTransaction: async (args: {
     selectedImage: Array<Field>
     weights_l1_8x8: Array<Field>[]
     weights_l2_8x8: Array<Field>[]
   }) => {
-    console.log('in createUpdateTransaction')
+    console.log('in createPredictUpdateTransaction')
     console.log('selectedImage is', args.selectedImage)
     console.log('weights_l1_8x8 is', args.weights_l1_8x8)
     console.log('weights_l2_8x8 is', args.weights_l2_8x8)
@@ -907,128 +904,128 @@ const functions = {
         Field(1),
       ],
     ]
-    const weights_l2_8x8 = [
-      [
-        Field(1553),
-        Field(9),
-        Field(6),
-        Field(16),
-        Field(287),
-        Field(1365),
-        Field(5),
-        Field(1378),
-        Field(1180),
-        Field(578),
-      ],
-      [
-        Field(1123),
-        Field(1499),
-        Field(1671),
-        Field(53),
-        Field(4),
-        Field(496),
-        Field(1591),
-        Field(4),
-        Field(517),
-        Field(360),
-      ],
-      [
-        Field(3),
-        Field(6),
-        Field(982),
-        Field(441),
-        Field(305),
-        Field(13),
-        Field(598),
-        Field(2412),
-        Field(10),
-        Field(308),
-      ],
-      [
-        Field(3),
-        Field(315),
-        Field(552),
-        Field(1029),
-        Field(490),
-        Field(262),
-        Field(4),
-        Field(1119),
-        Field(151),
-        Field(1992),
-      ],
-      [
-        Field(1964),
-        Field(6),
-        Field(1169),
-        Field(1032),
-        Field(310),
-        Field(3),
-        Field(5),
-        Field(462),
-        Field(4),
-        Field(11),
-      ],
-      [
-        Field(14),
-        Field(7),
-        Field(112),
-        Field(5),
-        Field(2012),
-        Field(728),
-        Field(1412),
-        Field(5),
-        Field(5),
-        Field(741),
-      ],
-      [
-        Field(3),
-        Field(2752),
-        Field(109),
-        Field(930),
-        Field(455),
-        Field(425),
-        Field(8),
-        Field(352),
-        Field(758),
-        Field(2),
-      ],
-      [
-        Field(3),
-        Field(5),
-        Field(1432),
-        Field(854),
-        Field(693),
-        Field(1278),
-        Field(14),
-        Field(5),
-        Field(1325),
-        Field(260),
-      ],
-      [
-        Field(292),
-        Field(7),
-        Field(5),
-        Field(1),
-        Field(1056),
-        Field(2),
-        Field(1174),
-        Field(12),
-        Field(1213),
-        Field(875),
-      ],
-      [
-        Field(598),
-        Field(6),
-        Field(5),
-        Field(1804),
-        Field(3),
-        Field(1318),
-        Field(921),
-        Field(5),
-        Field(485),
-        Field(303),
-      ],
-    ]
+    // const weights_l2_8x8 = [
+    //   [
+    //     Field(1553),
+    //     Field(9),
+    //     Field(6),
+    //     Field(16),
+    //     Field(287),
+    //     Field(1365),
+    //     Field(5),
+    //     Field(1378),
+    //     Field(1180),
+    //     Field(578),
+    //   ],
+    //   [
+    //     Field(1123),
+    //     Field(1499),
+    //     Field(1671),
+    //     Field(53),
+    //     Field(4),
+    //     Field(496),
+    //     Field(1591),
+    //     Field(4),
+    //     Field(517),
+    //     Field(360),
+    //   ],
+    //   [
+    //     Field(3),
+    //     Field(6),
+    //     Field(982),
+    //     Field(441),
+    //     Field(305),
+    //     Field(13),
+    //     Field(598),
+    //     Field(2412),
+    //     Field(10),
+    //     Field(308),
+    //   ],
+    //   [
+    //     Field(3),
+    //     Field(315),
+    //     Field(552),
+    //     Field(1029),
+    //     Field(490),
+    //     Field(262),
+    //     Field(4),
+    //     Field(1119),
+    //     Field(151),
+    //     Field(1992),
+    //   ],
+    //   [
+    //     Field(1964),
+    //     Field(6),
+    //     Field(1169),
+    //     Field(1032),
+    //     Field(310),
+    //     Field(3),
+    //     Field(5),
+    //     Field(462),
+    //     Field(4),
+    //     Field(11),
+    //   ],
+    //   [
+    //     Field(14),
+    //     Field(7),
+    //     Field(112),
+    //     Field(5),
+    //     Field(2012),
+    //     Field(728),
+    //     Field(1412),
+    //     Field(5),
+    //     Field(5),
+    //     Field(741),
+    //   ],
+    //   [
+    //     Field(3),
+    //     Field(2752),
+    //     Field(109),
+    //     Field(930),
+    //     Field(455),
+    //     Field(425),
+    //     Field(8),
+    //     Field(352),
+    //     Field(758),
+    //     Field(2),
+    //   ],
+    //   [
+    //     Field(3),
+    //     Field(5),
+    //     Field(1432),
+    //     Field(854),
+    //     Field(693),
+    //     Field(1278),
+    //     Field(14),
+    //     Field(5),
+    //     Field(1325),
+    //     Field(260),
+    //   ],
+    //   [
+    //     Field(292),
+    //     Field(7),
+    //     Field(5),
+    //     Field(1),
+    //     Field(1056),
+    //     Field(2),
+    //     Field(1174),
+    //     Field(12),
+    //     Field(1213),
+    //     Field(875),
+    //   ],
+    //   [
+    //     Field(598),
+    //     Field(6),
+    //     Field(5),
+    //     Field(1804),
+    //     Field(3),
+    //     Field(1318),
+    //     Field(921),
+    //     Field(5),
+    //     Field(485),
+    //     Field(303),
+    //   ],
+    // ]
 
     layer1_state.layer1 = new layer1_state.SnarkyLayer1!(weights_l1_8x8, 'relu')
 

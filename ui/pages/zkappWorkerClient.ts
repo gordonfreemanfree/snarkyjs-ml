@@ -69,12 +69,12 @@ export default class ZkappWorkerClient {
     return Field.fromJSON(JSON.parse(result as string))
   }
 
-  createUpdateTransaction(
+  createPredictUpdateTransaction(
     selectedImage: Array<Field>,
     weights_l1_8x8: Array<Field>[],
     weights_l2_8x8: Array<Field>[],
   ) {
-    return this._call('createUpdateTransaction', {
+    return this._call('createPredictUpdateTransaction', {
       selectedImage1: selectedImage,
       weights_l1_8x8_1: weights_l1_8x8,
       weights_l2_8x8_1: weights_l2_8x8,
