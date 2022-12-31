@@ -395,7 +395,7 @@ export function Demo(props: any) {
         handleClick={handleClick}
       />
       <h1 style={{ margin: 'auto', textAlign: 'center', padding: '2rem' }}>
-        <b style={{ color: 'black' }}>2.</b> Now let's fetch the latest zkapp
+        <b style={{ color: 'black' }}>2.</b> Now lets fetch the latest zkapp
         prediction state
       </h1>
       <div style={{ display: 'grid' }}>
