@@ -69,15 +69,19 @@ export default class ZkappWorkerClient {
     return Field.fromJSON(JSON.parse(result as string))
   }
 
-  createPredictUpdateTransaction(
-    selectedImage: Array<Field>,
-    weights_l1_8x8: Array<Field>[],
-    weights_l2_8x8: Array<Field>[],
-  ) {
+  createPredictUpdateTransaction(args: {
+    selectedImage: Array<Field>
+    weights_l1_8x8: Array<Field>[]
+    weights_l2_8x8: Array<Field>[]
+  }) {
+    console.log('in createPredictUpdateTransaction zkaapWorkerClient')
+    console.log(args.selectedImage)
+    console.log(args.weights_l1_8x8)
+    console.log(args.weights_l2_8x8)
     return this._call('createPredictUpdateTransaction', {
-      selectedImage1: selectedImage,
-      weights_l1_8x8_1: weights_l1_8x8,
-      weights_l2_8x8_1: weights_l2_8x8,
+      selectedImage: args.selectedImage,
+      weights_l1_8x8: args.weights_l1_8x8,
+      weights_l2_8x8: args.weights_l2_8x8,
     })
   }
 

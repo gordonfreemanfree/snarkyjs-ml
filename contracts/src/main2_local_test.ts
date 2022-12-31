@@ -162,6 +162,93 @@ import { image_3_label_0_5x5 } from './assets/image_3_label_0_5x5.js';
 
   // ----------------------------------------------------
 
+  // ----------------------------------------------------
+  const image_canvas_label_1 = [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+  ];
+  const txn4 = await Mina.transaction(deployerAccount, () => {
+    zkAppInstance.predict(
+      new InputImage(preprocessImage(image_canvas_label_1)),
+      snarkyLayer1s,
+      snarkyLayer2s
+    );
+    if (!useProof) {
+      zkAppInstance.sign(zkAppPrivateKey);
+    }
+  });
+  if (useProof) {
+    await txn4.prove();
+  }
+  await txn4.send();
+
+  const num4 = zkAppInstance.classification.get();
+  console.log('classification after txn3, should be 1:', num4.toString());
+
+  // ----------------------------------------------------
+
   //   try {
   //     const txn2 = await Mina.transaction(deployerAccount, () => {
   //       zkAppInstance.update(Field(75));

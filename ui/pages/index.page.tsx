@@ -6,7 +6,7 @@ import type { SmartSnarkyNet } from '../../contracts/src/'
 
 import { Demo } from './Demo'
 
-export default function Home() {
+export default function Home(props: any) {
   useEffect(() => {
     ;(async () => {
       await isReady
@@ -34,7 +34,7 @@ export default function Home() {
     <div className={styles.container}>
       <main className={styles.main}>
         <div className={styles.card2}>
-          <h1 className={styles.title}>Neural Nets on Snarkyjs</h1>
+          <h1 className={styles.title}>Neural Nets on SnarkyJS</h1>
 
           <p className={styles.description}>
             {' '}
@@ -75,6 +75,7 @@ export default function Home() {
             </a>
           </div> */}
         </div>
+        <h4>{props.setup}</h4>
       </main>
 
       {/* <footer className={styles.footer}>

@@ -6,10 +6,9 @@ import image_0_label_7_original from '../public/image_0_label_7_original.png'
 import image_1_label_2_original from '../public/image_1_label_2_original.png'
 import image_2_label_1_original from '../public/image_2_label_1_original.png'
 import image_3_label_0_original from '../public/image_3_label_0_original.png'
+import DrawFreeform from './DrawFreeform'
 
 export function Demo(props: any) {
-  // const [selectedImage, setSelectedImage] = useState<Array<Field>>(Array<Field>)
-
   const imageArray_0: Array<number> = [
     0,
     0,
@@ -309,9 +308,13 @@ export function Demo(props: any) {
       <h1 className={styles.title}>Neural Nets in SnarkyJS</h1>
       <p className={styles.description}>
         This is a demo of a neural network that is run on the client side. It
-        takes an image as an input and predicts the number in the image. Select
-        one of the images below to see the prediction.
+        takes an image as an private input and predicts the number in the image.
+        Finally the zkapp state will be updatet to the prediction. Try it out
+        yourself!
       </p>
+      <h1 style={{ margin: 'auto', textAlign: 'center', padding: '2rem' }}>
+        <b>1.</b> You can either select one of the images below ...
+      </h1>
       <div className={styles.grid}>
         <div className={styles.card} onClick={() => handleClick(imageArray_0)}>
           <Image
@@ -350,12 +353,42 @@ export function Demo(props: any) {
           <p className={styles.description}>This is a 0</p>
         </div>
       </div>
-      <button
-        className={styles.button}
-        onClick={() => console.log(props.selectedImage)}
-      >
-        Predict the number and update the state by sending a transaction
-      </button>
+      <DrawFreeform
+        className={styles.card}
+        handleSavedImageData={props.handleSavedImageData}
+        handleScaledImage={props.handleScaledImage}
+      />
+      <h1 style={{ margin: 'auto', textAlign: 'center', padding: '2rem' }}>
+        Now let's fetch the latest zkapp prediction state
+      </h1>
+      <div style={{ display: 'grid' }}>
+        <button
+          className={styles.button}
+          onClick={props.onRefreshCurrentNum}
+          style={{ margin: 'auto', padding: '2rem' }}
+        >
+          {' '}
+          Get Latest State{' '}
+        </button>
+        <div style={{ textAlign: 'center' }}>
+          Current prediction state in zkApp:{' '}
+          {props.state.currentNum!.toString()}{' '}
+        </div>
+      </div>
+      <h1 style={{ margin: 'auto', textAlign: 'center', padding: '2rem' }}>
+        Finally you can predict the number and update the state by sending a
+        transaction
+      </h1>
+      <div style={{ justifyContent: 'center', display: 'flex' }}>
+        <button
+          className={styles.button}
+          onClick={props.onSendPredictTransaction}
+          disabled={props.creatingTransaction}
+          style={{ margin: 'auto', textAlign: 'center', padding: '2rem' }}
+        >
+          Predict the number and update the state by sending a transaction
+        </button>
+      </div>
     </div>
   )
 }
