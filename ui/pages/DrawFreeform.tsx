@@ -1,5 +1,4 @@
 import React, { useRef, useState } from 'react'
-import canvas from 'canvas'
 import styles from '../styles/Home.module.css'
 
 export default function DrawFreeform(props: any) {
@@ -28,7 +27,7 @@ export default function DrawFreeform(props: any) {
 
     context!.stroke()
 
-    context!.lineWidth = 4
+    context!.lineWidth = 2
   }, [points])
 
   function handleMouseDown(event: React.MouseEvent<HTMLCanvasElement>) {
@@ -87,22 +86,23 @@ export default function DrawFreeform(props: any) {
         savedImageData2.push(v)
       }
       // THIS IS THE ARRAY
-      console.log(savedImageData2)
+      console.log('saved image is', savedImageData2)
 
       props.handleSavedImageData(savedImageData2)
       // setSavedImageData(savedImageData2)
 
       // scale the every pixel to positive integers
       let scaledPixelArray = savedImageData2.map((pixel) => {
-        return Math.round(pixel * 1000)
+        return Math.round(pixel * 1500)
       })
 
       //   let scaledPixels = savedImageData2.forEach((pixel) => {
       //     Math.round(pixel * 1000)
       //   })
-      props.handleScaledImage(scaledPixelArray)
+      props.handleScaledImage(props.preprocessImage(scaledPixelArray))
       // setScaledImage(scaledPixelArray)
-      console.log('scaling is', scaledPixelArray)
+      console.log('scaling is', props.preprocessImage(scaledPixelArray))
+      props.handleClick(props.preprocessImage(scaledPixelArray))
     }
   }
   //   // function to scale the image pixels to positive integers
@@ -122,7 +122,8 @@ export default function DrawFreeform(props: any) {
   return (
     <div>
       <h1 style={{ margin: 'auto', textAlign: 'center', padding: '1rem' }}>
-        ... or draw your own number from 0 to 9
+        <b style={{ color: 'black' }}>1.b</b> ... or draw your own number from 0
+        to 9
       </h1>
       <h4 style={{ margin: 'auto', textAlign: 'center' }}>
         make sure that you make a nice drawing. The prediction works best for 0

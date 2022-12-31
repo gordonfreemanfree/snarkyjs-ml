@@ -7,8 +7,35 @@ import image_1_label_2_original from '../public/image_1_label_2_original.png'
 import image_2_label_1_original from '../public/image_2_label_1_original.png'
 import image_3_label_0_original from '../public/image_3_label_0_original.png'
 import DrawFreeform from './DrawFreeform'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 export function Demo(props: any) {
+  const warning = (message: string) => {
+    toast.warn(message, {
+      position: 'top-right',
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'light',
+    })
+  }
+
+  const notify = (message: string) => {
+    toast.info(message, {
+      position: 'top-right',
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'light',
+    })
+  }
   const imageArray_0: Array<number> = [
     0,
     0,
@@ -301,6 +328,7 @@ export function Demo(props: any) {
 
   const handleClick = (image: Array<number>) => {
     props.setSelectedImage(preprocessImage(image))
+    notify('Image selected!')
   }
 
   return (
@@ -313,10 +341,16 @@ export function Demo(props: any) {
         yourself!
       </p>
       <h1 style={{ margin: 'auto', textAlign: 'center', padding: '2rem' }}>
-        <b>1.</b> You can either select one of the images below ...
+        <b style={{ color: 'black' }}>1.a</b> You can either select one of the
+        images below ...
       </h1>
       <div className={styles.grid}>
-        <div className={styles.card} onClick={() => handleClick(imageArray_0)}>
+        <div
+          className={styles.card}
+          onClick={() => {
+            handleClick(imageArray_0)
+          }}
+        >
           <Image
             src={image_0_label_7_original}
             alt=""
@@ -357,9 +391,12 @@ export function Demo(props: any) {
         className={styles.card}
         handleSavedImageData={props.handleSavedImageData}
         handleScaledImage={props.handleScaledImage}
+        preprocessImage={preprocessImage}
+        handleClick={handleClick}
       />
       <h1 style={{ margin: 'auto', textAlign: 'center', padding: '2rem' }}>
-        Now let's fetch the latest zkapp prediction state
+        <b style={{ color: 'black' }}>2.</b> Now let's fetch the latest zkapp
+        prediction state
       </h1>
       <div style={{ display: 'grid' }}>
         <button
@@ -376,8 +413,8 @@ export function Demo(props: any) {
         </div>
       </div>
       <h1 style={{ margin: 'auto', textAlign: 'center', padding: '2rem' }}>
-        Finally you can predict the number and update the state by sending a
-        transaction
+        <b style={{ color: 'black' }}>3.</b> Finally you can predict the number
+        and update the state by sending a transaction
       </h1>
       <div style={{ justifyContent: 'center', display: 'flex' }}>
         <button
